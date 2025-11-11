@@ -64,47 +64,83 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b bg-card">
+      <header className="border-b bg-card backdrop-blur-sm sticky top-0 z-50 animate-fade-in">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <TrendingDown className="h-6 w-6 text-primary" />
+          <div className="flex items-center gap-2 transition-transform hover:scale-105">
+            <TrendingDown className="h-6 w-6 text-primary animate-pulse" />
             <h1 className="text-2xl font-bold">ExpenseDecoder</h1>
           </div>
-          <Button variant="ghost" onClick={handleSignOut}>
+          <Button 
+            variant="ghost" 
+            onClick={handleSignOut}
+            className="transition-all hover:scale-105"
+          >
             <LogOut className="mr-2 h-4 w-4" />
             Sign Out
           </Button>
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8">
-        <div className="mb-8">
+      <main className="container mx-auto px-4 py-8 perspective-1000">
+        <div className="mb-8 animate-fade-in" style={{ animationDelay: '0.1s', animationFillMode: 'backwards' }}>
           <h2 className="text-3xl font-bold mb-2">Welcome back!</h2>
           <p className="text-muted-foreground">Here's your spending overview</p>
         </div>
 
         <div className="grid gap-6 mb-8">
-          <div className="flex justify-end">
-            <Button onClick={() => setShowExpenseForm(!showExpenseForm)}>
+          <div className="flex justify-end animate-fade-in" style={{ animationDelay: '0.2s', animationFillMode: 'backwards' }}>
+            <Button 
+              onClick={() => setShowExpenseForm(!showExpenseForm)}
+              className="transition-all hover:scale-105 hover:shadow-lg active:scale-95"
+            >
               <Plus className="mr-2 h-4 w-4" />
               Add Expense
             </Button>
           </div>
 
           {showExpenseForm && (
-            <ExpenseForm 
-              userId={user?.id || ""} 
-              onSuccess={handleExpenseAdded}
-              onCancel={() => setShowExpenseForm(false)}
-            />
+            <div className="animate-scale-in">
+              <ExpenseForm 
+                userId={user?.id || ""} 
+                onSuccess={handleExpenseAdded}
+                onCancel={() => setShowExpenseForm(false)}
+              />
+            </div>
           )}
 
           <div className="grid md:grid-cols-2 gap-6">
-            <SpendingChart userId={user?.id || ""} key={refreshKey} />
-            <AIInsights userId={user?.id || ""} key={refreshKey} />
+            <div 
+              className="animate-fade-in transition-all hover:scale-[1.02] hover:-translate-y-1 hover:shadow-2xl"
+              style={{ 
+                animationDelay: '0.3s', 
+                animationFillMode: 'backwards',
+                transformStyle: 'preserve-3d'
+              }}
+            >
+              <SpendingChart userId={user?.id || ""} key={refreshKey} />
+            </div>
+            <div 
+              className="animate-fade-in transition-all hover:scale-[1.02] hover:-translate-y-1 hover:shadow-2xl"
+              style={{ 
+                animationDelay: '0.4s', 
+                animationFillMode: 'backwards',
+                transformStyle: 'preserve-3d'
+              }}
+            >
+              <AIInsights userId={user?.id || ""} key={refreshKey} />
+            </div>
           </div>
 
-          <ExpensesList userId={user?.id || ""} key={refreshKey} onUpdate={() => setRefreshKey(prev => prev + 1)} />
+          <div 
+            className="animate-fade-in transition-all hover:scale-[1.01] hover:-translate-y-1 hover:shadow-xl"
+            style={{ 
+              animationDelay: '0.5s', 
+              animationFillMode: 'backwards',
+              transformStyle: 'preserve-3d'
+            }}
+          >
+            <ExpensesList userId={user?.id || ""} key={refreshKey} onUpdate={() => setRefreshKey(prev => prev + 1)} />
+          </div>
         </div>
       </main>
     </div>
